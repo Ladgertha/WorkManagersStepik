@@ -1,5 +1,6 @@
 package ru.ladgertha.workmanagersstepik
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ru.ladgertha.workmanagersstepik.ui.theme.WorkManagersStepikTheme
+import ru.ladgertha.workmanagersstepik.workers.SimpleWorker
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,10 +26,12 @@ class MainActivity : ComponentActivity() {
             WorkManagersStepikTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     WorkerButton(
-                        "Worker", modifier = Modifier
+                        text = "Worker",
+                        modifier = Modifier
                             .padding(innerPadding)
                             .padding(16.dp, 80.dp, 16.dp)
-                            .fillMaxWidth()
+                            .fillMaxWidth(),
+                        context = this
                     )
                 }
             }
@@ -36,21 +40,13 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun WorkerButton(text: String, modifier: Modifier = Modifier) {
+fun WorkerButton(text: String, modifier: Modifier = Modifier, context: Context) {
     Button(
         onClick = {
-
+            SimpleWorker.start(context)
         },
         modifier = modifier
     ) {
         Text(text = text)
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    WorkManagersStepikTheme {
-        WorkerButton("Worker button")
     }
 }
